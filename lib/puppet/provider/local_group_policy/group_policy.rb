@@ -14,8 +14,22 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
   # Important variables
   time = Time.now
   time = time.strftime("%Y%m%d%H%M%S")
+
   $polfile_copy = "c:\\windows\\temp\\Registry-#{time}.pol"
-  $polfile_orig = 'c:\Windows\sysnative\GroupPolicy\Machine\Registry.pol'
+
+  # CTB note 20150915:
+  # The original `polfile_orig` statement below *should* work, as `sysnative`
+  # should redirect to either `system32` (64-bit) or `SysWOW64` (32-bit binaries
+  # on a  64-bit system) or `system32` on a 32-bit system. The `sysnative`
+  # redirect was not working correctly for me on 64-bit Windows Server 2012 R2,
+  # so the `$polfile_orig` variable has been changed to point directly to
+  # `system32`. This should work acceptably on 32-bit Windows with a 32-bit
+  # Puppet Agent and on 64-bit Windows with a 64-bit Puppet Agent. This will
+  # probably not work with a 32-bit Puppet Agent on 64-bit Windows.
+  # See http://www.samlogic.net/articles/sysnative-folder-64-bit-windows.htm.
+
+  # $polfile_orig = 'c:\Windows\sysnative\GroupPolicy\Machine\Registry.pol'
+  $polfile_orig = 'c:\Windows\system32\GroupPolicy\Machine\Registry.pol'
 
   mk_resource_methods
 
