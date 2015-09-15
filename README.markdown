@@ -4,7 +4,7 @@ create by Paul Cannon at email paulscannon at gmail dot com
 
 ## Local_security_policy features
 
-If you want to leave the options as default, please do not fill in. The module will pull the default value from microsoft standards.
+If you want to leave the options as default, please do not fill in. The module will pull the default value from Microsoft standards.
 
 
 This module uses types and providers to list, update, validate settings
