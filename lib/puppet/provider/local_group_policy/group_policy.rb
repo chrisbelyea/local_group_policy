@@ -5,7 +5,7 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
   #
   #TODO
   #Destroy module
-  # Overwight GPO?
+  # Overwrite GPO?
   # Helper to lookup values
   # Better handle of delete instances **del.
   #
@@ -135,19 +135,19 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
     curr_settings = []
     existing_settings.each do |ex_reg_key, ex_reg_val, ex_reg_typ, ex_reg_siz, ex_reg_dat|
       sys_settings = settings_lookup.select { |s| s.include? ex_reg_val and s.include? "#{ex_reg_key}" }
-      #log.debug "Registry Type: #{ex_reg_typ} Registry_data: #{ex_reg_dat}"
+      log.debug "Registry Type: #{ex_reg_typ} Registry_data: #{ex_reg_dat}"
       sys_tShort = sys_settings[0][0]
       sys_policyText = sys_settings[0][1]
       sys_policyID = sys_settings[0][1]
       sys_templateName = sys_settings[0][5]
-      #log.debug ex_reg_typ
+      log.debug ex_reg_typ
       ex_reg_typ = self.class.reg_type_conv_pol_rev(ex_reg_typ)
       curr_settings << [ sys_tShort, sys_policyText, sys_policyID, sys_templateName, ex_reg_key, ex_reg_val, ex_reg_dat, ex_reg_typ ]
     end
     exist_settings_hash = curr_settings.group_by { |e| e[1] }
     exist_settings_hash.each do |key,value|
       if key != set_policy_name
-        #log.debug value
+        log.debug value
         value.each do |setting|
           settings << conv_to_write_ary( setting[4] , setting[5] ,setting[7] ,setting[6] )
         end
@@ -168,10 +168,10 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
     eroot = eFile.root
 
     #Look up enabled values
-#log.debug "Policy Name: #{sys_tShort}"
-#log.debug "PolicyID: #{sys_policyID}"
+log.debug "Policy Name: #{sys_tShort}"
+log.debug "PolicyID: #{sys_policyID}"
     policy_def = self.class.mapPolicies(droot,eroot, sys_policyID)
-#    log.debug policy_def.to_s
+    log.debug policy_def.to_s
     policy_def.each do |policy_name,policy_details|
       settings << conv_to_write_ary(policy_details[:policyEnable][:enableKey], policy_details[:policyEnable][:policyEnableValueName], policy_details[:policyEnable][:enableType],policy_details[:policyEnable][:enableSetting])
       #All policy settings
@@ -224,7 +224,7 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
     if reg_typ == "\u0001"
       reg_dat = orig_dat.encode('UTF-8')
     else
-      #log.debug "#{orig_dat} : #{orig_dat.encoding.name}"
+      log.debug "#{orig_dat} : #{orig_dat.encoding.name}"
       if orig_dat[/\H/]
         reg_dat = orig_dat
       else
@@ -279,7 +279,7 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
     log = Logger::new('c:\windows\temp\debug.txt')
 
 	@policyString = mapPolicyStrings(eroot)
-	#log.debug @policyString
+	log.debug @policyString
 	policy = {}
 	policyName = ""
 	#Map a policies
@@ -288,7 +288,7 @@ Puppet::Type.type(:local_group_policy).provide(:group_policy) do
 		policyID = policyElement.attributes["name"]
 		policyName = @policyString[policyElement.attributes["displayName"].gsub /^\$\(\w+\.(\w+)\)/, '\1']
 
-		#log.debug policyName
+		log.debug policyName
 		#Set up policy hash
 		#policy[policyName] = { :policyID => policyID }
 
