@@ -5,7 +5,7 @@ Puppet::Type.newtype(:local_group_policy) do
   ensurable
 
   newparam(:name, :namevar => true) do
-    desc 'Group Policy  Setting Text'
+    desc 'Group Policy Setting Text'
   end
 
   newproperty(:policy_template) do
