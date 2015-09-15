@@ -1,10 +1,19 @@
 {
   "author": "Paul S Cannon",
-  "summary": "Local Group Policy Editor",
-  "license": "Apache 2.0",
+  "summary": "Local Group Policy",
+  "license": "Apache-2.0",
   "name": "cannonps-local_group_policy",
   "project_page": "https://github.com/cannonps/local_group_policy",
   "source": "https://github.com/cannonps/local_group_policy",
-  "summary": "Local Group Policy Editor",
-  "version": "1.0.1"
+  "summary": "Local Group Policy",
+  "version": "1.0.1",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Windows",
+      "operatingsystemrelease": [
+        "Server 2012 R2"
+      ]
+    }
+  ],
+  "dependencies": [ ]
 }
